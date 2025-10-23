@@ -1,0 +1,123 @@
+df -h : to check how much disk space is used and how much is free on your system -in human readble fom(like MB GB)
+  exampls:
+  renuka@Bunny:/$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+rootfs          458G   81G  378G  18% /
+none            458G   81G  378G  18% /dev
+none            458G   81G  378G  18% /run
+none            458G   81G  378G  18% /run/lock
+none            458G   81G  378G  18% /run/shm
+none            458G   81G  378G  18% /run/user
+cgroup          458G   81G  378G  18% /sys/fs/cgroup
+C:\             458G   81G  378G  18% /mnt/c
+D:\             458G  111M  458G   1% /mnt/d
+---  --------------------------------------------
+  du -h : du stands for disk usage
+ it shows the disk usage of files and directories in a format easy for humans to read
+ex:
+renuka@Bunny:~$ du -h
+0       ./.config/procps
+0       ./.config
+0       ./.landscape
+0       ./.local/share/nano
+0       ./.local/share
+0       ./.local
+0       ./renu
+20K     .
+KEY DIFFERENCE BETWEEN du -h and df -h:
+du-h is folder focused
+df -h is disk focused
+-----------------------------------------
+du -sh >> sumary only (don't show all subfolders)
+renuka@Bunny:~$ du -sh
+20K    
+du -sh * >> shows a quick overview of sizes of all folers/files in your current location
+renuka@Bunny:~$ du -sh *
+0       p1.txt
+0       p2.txt
+0       p3.txt
+0       renu
+du -ah  >> shows all files and folders
+ DIFFERNECE BETWEN du -h and du -ah
+du -h >> folders only'
+ du -ah >> folders + files                       
+one best example:
+suppose your /documets directory looks like this
+/Documents
+│
+├── notes
+│   └── todo.txt  (4K)
+│
+├── projects
+│   └── project1.zip  (1.2M)
+│
+└── reports
+    └── report.pdf  (500K)    
+now using du -h 
+4.0K    /Documents/notes
+1.2M    /Documents/projects
+500K    /Documents/reports
+5.7M    /Documents
+>>> shows only folders
+>>> no induvidual file listed
+>> the last line give the total folder size 
+now using du -ah 
+4.0K    /Documents/notes/todo.txt
+4.0K    /Documents/notes
+1.2M    /Documents/projects/project1.zip
+1.2M    /Documents/projects
+500K    /Documents/reports/report.pdf
+500K    /Documents/reports
+5.7M    /Documents    
+shows both folders and files 
+each file size is disaplayed induvidually
+-------------------------------------------------------------
+ du -sh * | sort -h
+
+du -sh * → Shows the total size of each folder/file in the current directory (summary, human-readable).
+
+| sort -h → Sorts the output by size, smallest to largest.
+ du -sh * | sort -hr
+ -r reverse order
+example:
+renuka@Bunny:~$ touch p1.txt p2.txt p3.txt
+renuka@Bunny:~$ ls -l
+total 0
+-rw-rw-rw- 1 renuka renuka    0 Oct 23 14:29 p1.txt
+-rw-rw-rw- 1 renuka renuka    0 Oct 23 14:29 p2.txt
+-rw-rw-rw- 1 renuka renuka    0 Oct 23 14:29 p3.txt
+drwxrwxrwx 1 renuka renuka 4096 Oct 23 13:22 renu
+renuka@Bunny:~$ fallocate -l 3k p3.txt
+renuka@Bunny:~$ fallocate -l 2m p2.txt
+renuka@Bunny:~$ fallocate -l 1k p1.txt
+renuka@Bunny:~$ ls -lh >> ls -lh for exact file sizes:( i have used la -l(not human readable) but i got reslut for 1k its 1024 to get exacccccccct use ls-lh(human readable like kb gb mb)
+total 2.1M
+-rw-rw-rw- 1 renuka renuka 1.0K Oct 23 14:29 p1.txt
+-rw-rw-rw- 1 renuka renuka 2.0M Oct 23 14:29 p2.txt
+-rw-rw-rw- 1 renuka renuka 3.0K Oct 23 14:29 p3.txt
+drwxrwxrwx 1 renuka renuka 4.0K Oct 23 13:22 renu
+renuka@Bunny:~$ du -sh * | sort -h
+0       renu
+4.0K    p1.txt
+4.0K    p3.txt
+2.0M    p2.txt
+renuka@Bunny:~$ du -sh * | sort -hr
+2.0M    p2.txt
+4.0K    p3.txt
+4.0K    p1.txt
+0       renu 
+-----------------------------------------------
+ncdu /home/renuka
+Provides an interactive, text-based interface to explore disk usage.
+Lets you see folder sizes, drill down, and even delete files/folders directly from the interface.                                                       
+Navigate using arrow keys
+Press Enter to go into a folder
+Press d to delete a selected folder/file
+                                                       
+
+
+
+    
+
+  
+  
