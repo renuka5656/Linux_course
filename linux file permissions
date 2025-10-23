@@ -8,6 +8,15 @@ renuka@Bunny:~$ pwd
 -----------------------------
 ls -l :  This will list everything that you have in your home directory
 Purpose: lists files and directories in the current directory with details: permissions, number of links, owner, group, size, modification date, name.
+cd >> change directory
+touch>> create empty file 
+mkdir >> create directory
+rm>> removefile
+rmdir>> remove empty directory
+cat >> show the file content
+cd ~ >> go to home
+cd .. >> go to one folder up
+
 
 -------------------------------------
 file permissions:
