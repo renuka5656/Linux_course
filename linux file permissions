@@ -1,0 +1,130 @@
+pwd: present working directory
+Purpose: shows the full path of the current directory.
+example:
+renuka@Bunny:~$ whoami
+renuka
+renuka@Bunny:~$ pwd
+/home/renuka
+-----------------------------
+ls -l :  This will list everything that you have in your home directory
+Purpose: lists files and directories in the current directory with details: permissions, number of links, owner, group, size, modification date, name.
+
+-------------------------------------
+file permissions:
+type: '-' for file, 'd' for directory
+if the file has x(execute) then the script would be executable
+Permissions for a file or directory may be restricted by types
+r-read
+w-write
+x-execute = running a program 
+rw-
+110
+2^2+2^1+0
+4+2+0=6
+symbol binary decimal meaning
+---     000     0      no permission
+--x     001     1       execute only
+-w-     010     2       writw only
+-wx     011     3       write +execute
+r--     100     4       readonly
+r-x      101    5       read+execute
+rw-      110    6        read+write
+rwx       111    7       read+write+execute
+example:
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+--wx-wx-wx 1 renuka renuka    0 Oct 14 13:10 p2
+-rw-rw-rw- 1 renuka renuka    0 Oct 14 13:10 p3
+drwxrwxrwx 1 renuka renuka 4096 Oct 14 13:09 renu
+renuka@Bunny:~$ chmod 764 p3
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+--wx-wx-wx 1 renuka renuka    0 Oct 14 13:10 p2
+-rwxrw-r-- 1 renuka renuka    0 Oct 14 13:10 p3
+drwxrwxrwx 1 renuka renuka 4096 Oct 14 13:09 renu
+renuka@Bunny:~$ chmod 000 p3 >> to remove all rermissions 
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+--wx-wx-wx 1 renuka renuka    0 Oct 14 13:10 p2
+---------- 1 renuka renuka    0 Oct 14 13:10 p3
+drwxrwxrwx 1 renuka renuka 4096 Oct 14 13:09 renu
+
+each permission(rwx) can be controlled at 3 levels:
+u-user - yourself
+g-group - can be people in the same project
+o-other - everyone on the system
+File or Directory permission can be dislayed  by running ls-l command
+command to change the permission:
+chmod:
+Symbolic changes:
+Remove write for user: renuka@Bunny:~$ chmod u-w p2
+Remove read for group: renuka@Bunny:~$ chmod g-r p2
+Remove read for all: renuka@Bunny:~$ chmod a-r p2
+Add read & write for user: renuka@Bunny:~$ chmod u+rw p2
+(After each chmod, run ls -l to verify the result.)
+Another example:
+if u  want to chnage the permission for user then(remove w)  :
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+-rw-rw-rw- 1 renuka renuka    0 Oct 14 13:10 p2
+-rw-rw-rw- 1 renuka renuka    0 Oct 14 13:10 p3
+drwxrwxrwx 1 renuka renuka 4096 Oct 14 13:09 renu
+renuka@Bunny:~$ chmod u-w p2
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+-r--rw-rw- 1 renuka renuka    0 Oct 14 13:10 p2
+-rw-rw-rw- 1 renuka renuka    0 Oct 14 13:10 p3
+drwxrwxrwx 1 renuka renuka 4096 Oct 14 13:09 renu
+--------------------------------------------------------
+if you want to change the permission for group(remove r):
+renuka@Bunny:~$ chmod g-r p2
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+-r---w-rw- 1 renuka renuka    0 Oct 14 13:10 p2
+-rw-rw-rw- 1 renuka renuka    0 Oct 14 13:10 p3
+drwxrwxrwx 1 renuka renuka 4096 Oct 14 13:09 renu
+--------------------------------------------------------------
+if you want to change the permission for the whole file remove(r):
+renuka@Bunny:~$ chmod a-r p2
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+-----w--w- 1 renuka renuka    0 Oct 14 13:10 p2
+-rw-rw-rw- 1 renuka renuka    0 Oct 14 13:10 p3
+drwxrwxrwx 1 renuka renuka 4096 Oct 14 13:09 renu
+if you want to give the permissions back which had the file earlier:
+renuka@Bunny:~$ chmod u+rw p2
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+-rw--w--w- 1 renuka renuka    0 Oct 14 13:10 p2
+-rw-rw-rw- 1 renuka renuka    0 Oct 14 13:10 p3
+drwxrwxrwx 1 renuka renuka 4096 Oct 14 13:09 renu
+-----------------------------------------------
+QN:in the above directory has the x(execute) does that mean the directory is script?
+ANS: No, the reason here x means because you could do CD into the directory
+example:
+renuka@Bunny:~$ cd renu >> if you want chnage the directoey 
+renuka@Bunny:~/renu$ cd .. >> if you want to go back 
+renuka@Bunny:~$ pwd
+/home/renuka
+renuka@Bunny:~$ cd renu
+renuka@Bunny:~/renu$ pwd
+/home/renuka/renu
+renuka@Bunny:~/renu$ cd ..
+renuka@Bunny:~$ chmod a-x renu (here removed execute in the directory)
+renuka@Bunny:~$ ls -l
+total 0
+--w-r--rw- 1 renuka renuka    0 Oct 14 13:10 p1
+-rw--w--w- 1 renuka renuka    0 Oct 14 13:10 p2
+-rw-rw-rw- 1 renuka renuka    0 Oct 14 13:10 p3
+drw-rw-rw- 1 renuka renuka 4096 Oct 14 13:09 renu
+renuka@Bunny:~$ cd renu
+-bash: cd: renu: Permission denied
+result: y permission denied because we dont hqve executable (x) right to the directory
