@@ -113,11 +113,97 @@ Lets you see folder sizes, drill down, and even delete files/folders directly fr
 Navigate using arrow keys
 Press Enter to go into a folder
 Press d to delete a selected folder/file
-                                                       
+-----------------------------------------------
+mount 
+mount is used to attach a storage device or partition (like a USB, external hard disk, CD, or even a Windows drive) to the Linux filesystem so you can access its data.
 
+Think of it like connecting a new road to your city — only after connecting (mounting), you can travel (access) that area.
+renuka@Bunny:~$ mount
+rootfs on / type lxfs (rw,noatime)
+none on /dev type tmpfs (rw,noatime,mode=755)
+sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,noatime)
+proc on /proc type proc (rw,nosuid,nodev,noexec,noatime)
+devpts on /dev/pts type devpts (rw,nosuid,noexec,noatime,gid=5,mode=620)
+none on /run type tmpfs (rw,nosuid,noexec,noatime,mode=755)
+none on /run/lock type tmpfs (rw,nosuid,nodev,noexec,noatime)
+none on /run/shm type tmpfs (rw,nosuid,nodev,noatime)
+none on /run/user type tmpfs (rw,nosuid,nodev,noexec,noatime,mode=755)
+binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,relatime)
+tmpfs on /sys/fs/cgroup type tmpfs (rw,nosuid,nodev,noexec,relatime,mode=755)
+cgroup on /sys/fs/cgroup/devices type cgroup (rw,nosuid,nodev,noexec,relatime,devices)
+C:\ on /mnt/c type drvfs (rw,noatime,uid=1000,gid=1000,case=off)
+D:\ on /mnt/d type drvfs (rw,noatime,uid=1000,gid=1000,case=off)
 
-
-    
+O/P means :[DEVICE] on [MOUNT POINT] type [FILESYSTEM] (OPTIONS)
+--------------------------------------------------------------------
+You can check what’s inside your Windows drives directly:
+cd /mnt/c
+ls
+o/p:
+renuka@Bunny:~$ cd /mnt/c
+renuka@Bunny:/mnt/c$ ls
+ls: cannot access 'DumpStack.log.tmp': Permission denied (Those warnings are normal — they just mean:“You don’t have permission to read these system-protected Windows files.”)
+ls: cannot access 'hiberfil.sys': Permission denied
+ls: cannot access 'pagefile.sys': Permission denied
+ls: cannot access 'swapfile.sys': Permission denied
+'$Recycle.Bin'  'Documents and Settings'   DumpStack.log.tmp   PerfLogs               ProgramData                  Users         dell           inetpub        tmp
+'$WinREAgent'    Drivers                   Intel              'Program Files'         Recovery                     Windows       dell.sdr       pagefile.sys
+ Apps            DummyDir                  OneDriveTemp       'Program Files (x86)'  'System Volume Information'   Windows.old   hiberfil.sys   swapfile.sys
+---------------------------------------------------------------------------
+if you want to mount manually:
+sudo mkdir /mnt/testmount >> create a folder
+ls /mnt >> to check weather its created or not
+renuka@Bunny:/$ ls /mnt
+c  d  testmount
+sudo mount --bind /mnt/c /mnt/testmount
+--bind is a safe method to remount an existing folder elsewhere.
+Here, you’re telling Linux:
+“Show me everything from /mnt/c also at /mnt/testmount.
+O/P:
+renuka@Bunny:/$ sudo mount --bind /mnt/c /mnt/testmount
+renuka@Bunny:/$ ls /mnt/testmount >> to check the contents
+ls: cannot access '/mnt/testmount/DumpStack.log.tmp': Permission denied
+ls: cannot access '/mnt/testmount/hiberfil.sys': Permission denied
+ls: cannot access '/mnt/testmount/pagefile.sys': Permission denied
+ls: cannot access '/mnt/testmount/swapfile.sys': Permission denied
+'$Recycle.Bin'  'Documents and Settings'   DumpStack.log.tmp   PerfLogs               ProgramData                  Users         dell           inetpub        tmp
+'$WinREAgent'    Drivers                   Intel              'Program Files'         Recovery                     Windows       dell.sdr       pagefile.sys
+ Apps            DummyDir                  OneDriveTemp       'Program Files (x86)'  'System Volume Information'   Windows.old   hiberfil.sys   swapfile.sys
+------------------------------------
+to verify if it is really mounted :
+mount | grep testmount
+O/P:
+renuka@Bunny:/$ mount | grep testmount
+C:\ on /mnt/testmount type drvfs (rw,noatime,uid=1000,gid=1000,case=off)
+---------------------------------
+To unmount :
+sudo umount /mnt/testmount
+to check weather its there or not
+renuka@Bunny:/$ ls /mnt/testmount
+KEY POINT:
+why we used sudo here?
+We use sudo with mount because:
+Mounting and unmounting devices affects the entire system, not just your user.
+So only the root (administrator) has permission to do it.
+-------------------------------------------
+findmnt:
+It’s like mount, but much easier to read, especially if you have many mounts.
+renuka@Bunny:/$ findmnt
+TARGET                       SOURCE      FSTYPE      OPTIONS
+/                            rootfs      lxfs        rw,noatime
+├─/dev                       none        tmpfs       rw,noatime,mode=755
+│ └─/dev/pts                 devpts      devpts      rw,nosuid,noexec,noatime,gid=5,mode=620
+├─/sys                       sysfs       sysfs       rw,nosuid,nodev,noexec,noatime
+│ └─/sys/fs/cgroup           tmpfs       tmpfs       rw,nosuid,nodev,noexec,relatime,mode=755
+│   └─/sys/fs/cgroup/devices cgroup      cgroup      rw,nosuid,nodev,noexec,relatime,devices
+├─/proc                      proc        proc        rw,nosuid,nodev,noexec,noatime
+│ └─/proc/sys/fs/binfmt_misc binfmt_misc binfmt_misc rw,relatime
+├─/run                       none        tmpfs       rw,nosuid,noexec,noatime,mode=755
+│ ├─/run/lock                none        tmpfs       rw,nosuid,nodev,noexec,noatime
+│ ├─/run/shm                 none        tmpfs       rw,nosuid,nodev,noatime
+│ └─/run/user                none        tmpfs       rw,nosuid,nodev,noexec,noatime,mode=755
+├─/mnt/c                     C:\         drvfs       rw,noatime,uid=1000,gid=1000,case=off
+└─/mnt/d                     D:\         drvfs       rw,noatime,uid=1000,gid=1000,case=off
 
   
   
