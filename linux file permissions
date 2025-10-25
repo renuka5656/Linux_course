@@ -6,8 +6,86 @@ renuka
 renuka@Bunny:~$ pwd
 /home/renuka
 -----------------------------
-ls -l :  This will list everything that you have in your home directory
-Purpose: lists files and directories in the current directory with details: permissions, number of links, owner, group, size, modification date, name.
+ls >> Only visible files/folders, no sizes
+renuka@Bunny:~$ ls
+c1.txt  c2.txt  c3.txt
+-------------------------------
+ls -l : Long format with sizes in bytes
+renuka@Bunny:~$ ls -l
+total 12
+-rw-r--r-- 1 renuka renuka 1024 Oct 25 06:09 c1.txt
+-rw-r--r-- 1 renuka renuka 2048 Oct 25 06:09 c2.txt
+-rw-r--r-- 1 renuka renuka 3072 Oct 25 06:09 c3.txt
+-----------------------------------------------------
+ls -lh >> Long format with human-readable sizes, no hidden files
+renuka@Bunny:~$ ls -lh
+total 12K
+-rw-r--r-- 1 renuka renuka 1.0K Oct 25 06:09 c1.txt
+-rw-r--r-- 1 renuka renuka 2.0K Oct 25 06:09 c2.txt
+-rw-r--r-- 1 renuka renuka 3.0K Oct 25 06:09 c3.txt
+---------------------------------------------------------
+ls -la >> Hidden files included, sizes in bytes
+renuka@Bunny:~$ ls -la
+total 28
+drwxr-x--- 1 renuka renuka 4096 Oct 25 06:08 .
+drwxr-xr-x 1 root   root   4096 Oct 11 16:43 ..
+-rw------- 1 renuka renuka 4160 Oct 23 15:42 .bash_history
+-rw-r--r-- 1 renuka renuka  220 Oct 11 16:43 .bash_logout
+-rw-r--r-- 1 renuka renuka 3771 Oct 11 16:43 .bashrc
+drwx------ 1 renuka renuka 4096 Oct 12 08:07 .config
+drwxr-xr-x 1 renuka renuka 4096 Oct 11 16:45 .landscape
+-rw------- 1 renuka renuka   20 Oct 12 08:18 .lesshst
+drwxrwxrwx 1 renuka renuka 4096 Oct 13 14:35 .local
+-rw-rw-rw- 1 renuka renuka    0 Oct 25 05:56 .motd_shown
+-rw-r--r-- 1 renuka renuka  807 Oct 11 16:43 .profile
+-rw-r--r-- 1 renuka renuka    0 Oct 13 11:17 .sudo_as_admin_successful
+-rw-r--r-- 1 renuka renuka 1024 Oct 25 06:09 c1.txt
+-rw-r--r-- 1 renuka renuka 2048 Oct 25 06:09 c2.txt
+-rw-r--r-- 1 renuka renuka 3072 Oct 25 06:09 c3.txt
+-------------------------------------------------------
+ls -lah >> Hidden files included, human-readable sizes
+renuka@Bunny:~$ ls -lah
+total 28K
+drwxr-x--- 1 renuka renuka 4.0K Oct 25 06:08 .
+drwxr-xr-x 1 root   root   4.0K Oct 11 16:43 ..
+-rw------- 1 renuka renuka 4.1K Oct 23 15:42 .bash_history
+-rw-r--r-- 1 renuka renuka  220 Oct 11 16:43 .bash_logout
+-rw-r--r-- 1 renuka renuka 3.7K Oct 11 16:43 .bashrc
+drwx------ 1 renuka renuka 4.0K Oct 12 08:07 .config
+drwxr-xr-x 1 renuka renuka 4.0K Oct 11 16:45 .landscape
+-rw------- 1 renuka renuka   20 Oct 12 08:18 .lesshst
+drwxrwxrwx 1 renuka renuka 4.0K Oct 13 14:35 .local
+-rw-rw-rw- 1 renuka renuka    0 Oct 25 05:56 .motd_shown
+-rw-r--r-- 1 renuka renuka  807 Oct 11 16:43 .profile
+-rw-r--r-- 1 renuka renuka    0 Oct 13 11:17 .sudo_as_admin_successful
+-rw-r--r-- 1 renuka renuka 1.0K Oct 25 06:09 c1.txt
+-rw-r--r-- 1 renuka renuka 2.0K Oct 25 06:09 c2.txt
+-rw-r--r-- 1 renuka renuka 3.0K Oct 25 06:09 c3.txt
+------------------------------------------------------
+ls -lhs>> it just displays those block sizes.
+renuka@Bunny:~$ ls -lhs
+total 12K
+4.0K -rw-r--r-- 1 renuka renuka 1.0K Oct 25 06:09 c1.txt
+4.0K -rw-r--r-- 1 renuka renuka 2.0K Oct 25 06:09 c2.txt
+4.0K -rw-r--r-- 1 renuka renuka 3.0K Oct 25 06:09 c3.txt
+The first number (4.0K) is the actual disk space used (block size) for each file
+------------------------------------------------------------------
+ls -lhS(capital s) : sort by size largest frst
+renuka@Bunny:~$ ls -lhS
+total 12K
+-rw-r--r-- 1 renuka renuka 3.0K Oct 25 06:09 c3.txt
+-rw-r--r-- 1 renuka renuka 2.0K Oct 25 06:09 c2.txt
+-rw-r--r-- 1 renuka renuka 1.0K Oct 25 06:09 c1.txt
+----------------------------------------------
+ls -lhsr: smaalest to largest
+
+ls -ltr>> Shows: Oldest files first, newest last  – Sort by time
+renuka@Bunny:~$ ls -lrt
+total 12
+-rw-r--r-- 1 renuka renuka 1024 Oct 25 06:09 c1.txt
+-rw-r--r-- 1 renuka renuka 2048 Oct 25 06:09 c2.txt
+-rw-r--r-- 1 renuka renuka 3072 Oct 25 06:09 c3.txt
+-------------------------------------------------------------
 cd >> change directory
 touch>> create empty file 
 mkdir >> create directory
