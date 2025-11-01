@@ -1,0 +1,161 @@
+ps	List active processes.
+renuka@Bunny:~$ ps
+  PID TTY          TIME CMD
+    9 tty1     00:00:00 bash
+  180 tty1     00:00:01 bash
+  706 tty1     00:00:00 ps
+  --------------------------------------
+  ps aux:Want resource usage info (%CPU, %MEM) interactively
+renuka@Bunny:~$ ps aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0   8952   332 ?        Ssl  06:46   0:00 /init
+root         8  0.0  0.0   8952   232 tty1     Ss   06:47   0:00 /init
+renuka       9  0.0  0.0  14112  3868 tty1     S    06:47   0:00 -bash
+root       179  0.0  0.0  15068  2764 tty1     S    07:20   0:00 su renuka
+renuka     180  0.0  0.0  14112  3820 tty1     S    07:21   0:01 bash
+renuka     708  1.4  0.0  16312  2764 tty1     R    11:40   0:00 ps aux
+------------------------------------------------
+pstree >>  Show processes ifn a tree-like diagram.
+renuka@Bunny:~$ pstree
+init─┬─init───bash───su───bash───pstree
+     └─{init}
+pstree -p >> Show process tree with PIDs:
+renuka@Bunny:~$ pstree -p
+init(1)─┬─init(8)───bash(9)───su(179)───bash(180)───pstree(711)
+        └─{init}(7)
+  -----------     ------------------------ ----------------------------------
+  pmap >> pmap stands for Process Memory Map.
+It shows how a process uses memory, including each memory segment’s address, size, and type.
+renuka@Bunny:~$ ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 06:46 ?        00:00:00 /init
+root         8     1  0 06:47 tty1     00:00:00 /init
+renuka       9     8  0 06:47 tty1     00:00:00 -bash
+root       179     9  0 07:20 tty1     00:00:00 su renuka
+renuka     180   179  0 07:21 tty1     00:00:01 bash
+renuka     726   180  1 11:58 tty1     00:00:00 ps -ef
+renuka@Bunny:~$ pmap 180
+180:   bash
+00007f66e9aa7000    356K r---- LC_CTYPE
+00007f66e9b00000     12K rw---   [ anon ]
+00007f66e9b10000    160K r---- libc.so.6
+00007f66e9b38000   1568K r-x-- libc.so.6
+00007f66e9cc0000    316K r---- libc.so.6
+00007f66e9d0f000     16K r---- libc.so.6
+00007f66e9d13000      8K rw--- libc.so.6
+
+--------------------------------------------
+top	-- See all running processes.(It shows real-time, dynamic information about all running processes — CPU usage, memory usage, and more — updating every few seconds.)
+Top Header
+
+12:10:31 → Current time
+
+up 2:03 → System uptime
+
+2 users → Number of logged-in users
+
+load average → System load (1, 5, and 15 minute averages)
+renuka@Bunny:~$ top
+top - 12:00:32 up  5:13,  0 user,  load average: 0.52, 0.58, 0.59
+Tasks:   6 total,   1 running,   5 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.7 us,  1.0 sy,  0.0 ni, 97.9 id,  0.0 wa,  0.3 hi,  0.0 si,  0.0 st
+MiB Mem :   8067.8 total,   2781.2 free,   5286.6 used,    224.0 buff/cache
+MiB Swap:  24576.0 total,  24342.4 free,    233.6 used.   2781.2 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+    1 root      20   0    8952    332    288 S   0.0   0.0   0:00.04 init
+    8 root      20   0    8952    232    184 S   0.0   0.0   0:00.00 init
+    9 renuka    20   0   14112   3868   3780 S   0.0   0.0   0:00.18 bash
+  179 root      20   0   15068   2764   2736 S   0.0   0.0   0:00.12 su
+  180 renuka    20   0   14112   3824   3732 S   0.0   0.0   0:01.18 bash
+  728 renuka    20   0   17352   3884   1648 R   0.0   0.0   0:00.02 top
+  htop	--Interactive and colorful process viewer.
+  >> kill is used to terminate (stop) a running process by sending it a signal.
+  renuka@Bunny:~$ ps -ef
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 06:46 ?        00:00:00 /init
+root         8     1  0 06:47 tty1     00:00:00 /init
+renuka       9     8  0 06:47 tty1     00:00:00 -bash
+renuka     850     9  0 12:25 tty1     00:00:00 ps -ef
+renuka@Bunny:~$ kill 850
+-bash: kill: (850) - No such process
+When you run ps -ef, that ps command itself is a process.
+
+It runs for a very short time (just enough to show you the list), then immediately ends.
+
+So by the time you copy its PID (850) and type kill 850, the process is already gone.
+
+That’s why the system says:no such preocess 
+
+so we can use sleep command here:
+The sleep command in Linux is used to pause or delay execution for a specified amount of time (in seconds, minutes, or hours).
+sleep 5>> 👉 Pauses the terminal for 5 seconds before continuing.
+O/P: renuka@Bunny:~$ sleep 8000 & >>This runs for 8000 seconds. You’ll get a PID
+[2] 885
+renuka@Bunny:~$ ps -ef | grep sleep
+renuka     875     9  0 12:37 tty1     00:00:00 sleep 600
+renuka     885     9  0 12:38 tty1     00:00:00 sleep 8000
+renuka     887     9  0 12:38 tty1     00:00:00 grep --color=auto sleep
+renuka@Bunny:~$ kill 875
+renuka@Bunny:~$ ps -ef | grep sleep
+renuka     885     9  0 12:38 tty1     00:00:00 sleep 8000
+renuka     889     9  0 12:38 tty1     00:00:00 grep --color=auto sleep
+[1]-  Terminated              sleep 600
+ ----------------------------------------
+ kill -9 <pid>
+ Forcefully terminates a process using signal 9
+ kill → sends a polite request to stop (signal 15).
+kill -9 → forcefully kills it immediately (signal 9).
+example
+renuka@Bunny:~$ sleep 9000 &
+[4] 893
+renuka@Bunny:~$ ps -ef | grep sleep
+renuka     885     9  0 12:38 tty1     00:00:00 sleep 8000
+renuka     890     9  0 12:41 tty1     00:00:00 sleep 1000
+renuka     893     9  0 12:43 tty1     00:00:00 sleep 9000
+renuka     895     9  0 12:43 tty1     00:00:00 grep --color=auto sleep
+renuka@Bunny:~$ kill -9 885
+renuka@Bunny:~$ ps -ef | grep sleep
+renuka     890     9  0 12:41 tty1     00:00:00 sleep 1000
+renuka     893     9  0 12:43 tty1     00:00:00 sleep 9000
+renuka     897     9  0 12:43 tty1     00:00:00 grep --color=auto sleep
+[2]   Killed                  sleep 8000
+--------------------------------------------------
+pkill >> process kill (It kills a process by name, not by PID.)
+renuka@Bunny:~$ sleep 1000 &
+[1] 904
+renuka@Bunny:~$ sleep 4000 &
+[2] 905
+renuka@Bunny:~$ ps -ef | grep sleep
+renuka     904     9  0 12:52 tty1     00:00:00 sleep 1000
+renuka     905     9  0 12:52 tty1     00:00:00 sleep 4000
+renuka     907     9  0 12:52 tty1     00:00:00 grep --color=auto sleep
+renuka@Bunny:~$ pkill sleep
+[1]-  Terminated              sleep 1000
+[2]+  Terminated              sleep 4000
+renuka@Bunny:~$ ps -ef | grep sleep
+renuka     910     9  9 12:53 tty1     00:00:00 grep --color=auto sleep
+------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sleep 5
