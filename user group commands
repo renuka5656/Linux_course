@@ -19,7 +19,7 @@ wtmp begins Sat Oct 11 16:40:58 2025
 
 users >> It displays the usernames of all users currently logged in, but in a single line (simpler than who).
 
-finger
+finger >> The finger command shows details about the users currently logged into the system and some basic info about their accounts.
 ----------------------------------------------------------------
 useradd 
 is the help menu — it appears because you didn’t give a username.
