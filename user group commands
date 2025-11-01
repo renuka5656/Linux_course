@@ -1,0 +1,271 @@
+id >> It displays user identity information — including your user ID, group ID, and all the groups you belong to
+example:
+renuka@Bunny:~$ id
+uid=1000(renuka) gid=1000(renuka) groups=1000(renuka),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),100(users),107(netdev)
+---------------------------------------------------------------------
+whoami>> It simply shows the current logged-in username.
+renuka@Bunny:~$ whoami
+renuka
+whoami → shows only username
+id → shows detailed identity info (UID, GID, Groups)
+-----------------------------------------------------------------
+who >> Shows who is currently logged in to the system — including username, terminal, login time, and sometimes the remote IP if logged in via SSH.
+
+last >>Shows the login history of users — who logged in, when, from where, and when they logged out.
+It reads data from the file /var/log/wtmp.
+O/P: renuka@Bunny:~$ last renuka
+wtmp begins Sat Oct 11 16:40:58 2025
+------------------------------------------------------
+
+users >> It displays the usernames of all users currently logged in, but in a single line (simpler than who).
+
+finger
+----------------------------------------------------------------
+useradd 
+is the help menu — it appears because you didn’t give a username.
+So Linux is showing you all available options.
+o/p:   594  history
+renuka@Bunny:~$ useradd
+Usage: useradd [options] LOGIN
+       useradd -D
+       useradd -D [options]
+
+Options:
+      --badname                 do not check for bad names
+  -b, --base-dir BASE_DIR       base directory for the home directory of the
+                                new account
+      --btrfs-subvolume-home    use BTRFS subvolume for home directory
+  -c, --comment COMMENT         GECOS field of the new account
+  -d, --home-dir HOME_DIR       home directory of the new account
+  -D, --defaults                print or change default useradd configuration
+  -e, --expiredate EXPIRE_DATE  expiration date of the new account
+  -f, --inactive INACTIVE       password inactivity period of the new account
+  -F, --add-subids-for-system   add entries to sub[ud]id even when adding a system user
+  -g, --gid GROUP               name or ID of the primary group of the new
+                                account
+  -G, --groups GROUPS           list of supplementary groups of the new
+                                account
+  -h, --help                    display this help message and exit
+  -k, --skel SKEL_DIR           use this alternative skeleton directory
+  -K, --key KEY=VALUE           override /etc/login.defs defaults
+  -l, --no-log-init             do not add the user to the lastlog and
+                                faillog databases
+  -m, --create-home             create the user's home directory
+  -M, --no-create-home          do not create the user's home directory
+  -N, --no-user-group           do not create a group with the same name as
+                                the user
+  -o, --non-unique              allow to create users with duplicate
+                                (non-unique) UID
+  -p, --password PASSWORD       encrypted password of the new account
+  -r, --system                  create a system account
+  -R, --root CHROOT_DIR         directory to chroot into
+  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files
+  -s, --shell SHELL             login shell of the new account
+  -u, --uid UID                 user ID of the new account
+  -U, --user-group              create a group with the same name as the user
+  -Z, --selinux-user SEUSER     use a specific SEUSER for the SELinux user mapping
+      --extrausers              Use the extra users database
+
+Create a new user: sudo useradd -m -s /bin/bash shiv
+Explanation:
+sudo → gives you permission as admin
+useradd → command to create user
+-m → makes a home directory /home/shiv
+-s /bin/bash → sets bash shell for that user
+Step 2: Set password for that user
+renuka@Bunny:~$ sudo useradd -m -s/bin/bash sunny
+renuka@Bunny:~$ sudo passwd sunny
+New password:
+Retype new password:
+passwd: password updated successfully
+Verify the user was created use id sunny
+renuka@Bunny:~$ id sunny
+uid=1003(sunny) gid=1003(sunny) groups=1003(sunny)
+Step 4: Check home directory
+renuka@Bunny:~$ ls /home
+harsha  renuka  shiv  sunny
+Step 5 — Switch to the new user
+renuka@Bunny:~$ su - sunny
+Password:
+Welcome to Ubuntu 24.04.1 LTS (GNU/Linux 4.4.0-19041-Microsoft x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sat Nov  1 07:41:39 UTC 2025
+
+  System load:  0.52                Processes:              12
+  Usage of /:   18.5% of 457.96GB   Users logged in:        0
+  Memory usage: 60%                 IPv4 address for wifi0: 192.168.1.2
+  Swap usage:   0%
+
+This message is shown once a day. To disable it please create the
+/home/sunny/.hushlogin file.
+sunny@Bunny:~$
+Step 7 — Exit back to your renuka account
+>> /etc/passwd → stores user details
+renuka@Bunny:~$ /etc/passwd
+bash: /etc/passwd: Permission denied >> so use cat or grep (use grep if you want to see that user)
+renuka@Bunny:~$ grep '^renuka:' /etc/passwd
+renuka:x:1000:1000:,,,:/home/renuka:/bin/bash
+renuka@Bunny:~$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:998:998:systemd Network Management:/:/usr/sbin/nologin
+systemd-timesync:x:996:996:systemd Time Synchronization:/:/usr/sbin/nologin
+dhcpcd:x:100:65534:DHCP Client Daemon,,,:/usr/lib/dhcpcd:/bin/false
+messagebus:x:101:101::/nonexistent:/usr/sbin/nologin
+syslog:x:102:102::/nonexistent:/usr/sbin/nologin
+systemd-resolve:x:991:991:systemd Resolver:/:/usr/sbin/nologin
+uuidd:x:103:103::/run/uuidd:/usr/sbin/nologin
+landscape:x:104:105::/var/lib/landscape:/usr/sbin/nologin
+polkitd:x:990:990:User for polkitd:/:/usr/sbin/nologin
+renuka:x:1000:1000:,,,:/home/renuka:/bin/bash
+shiv:x:1001:1001::/home/shiv:/bin/bash
+harsha:x:1002:1002::/home/harsha:/bin/bash
+sunny:x:1003:1003::/home/sunny:/bin/bash
+----------------------------------------------------
+/etc/group → stores group details
+renuka@Bunny:~$ grep '^renuka:' /etc/group
+renuka:x:1000:
+-----------------------------------------
+/etc/shadow → stores encrypted passwords
+renuka@Bunny:~$ grep '^renuka:' /etc/shadow
+grep: /etc/shadow: Permission denied
+Why you got “Permission denied”
+
+/etc/shadow is a highly protected system file because it stores all users’ encrypted passwords.
+
+Only the root user (administrator) can read it.(use sudo)
+renuka@Bunny:~$ sudo grep '^renuka:' /etc/shadow
+[sudo] password for renuka:
+renuka:$y$j9T$1isHt5JsglKi6SModEQ9t0$9naDK/zjS5fj36GU7DrpbjJoEAbQshjmyPvJPJ6heb4:20372:0:99999:7:::
+-----------------------------------------------------------------
+
+passwd >> Used to set, change, or manage passwords for users in Linux
+Change your own password : passwd
+shiv@Bunny:~$ passwd
+Changing password for shiv.
+Current password:
+New password:
+Retype new password:
+passwd: password updated successfully
+
+renuka@Bunny:~$ sudo passwd -l renuka >> to lock ypur account
+[sudo] password for renuka:
+passwd: password changed.
+renuka@Bunny:~$ sudo passwd -S renuka >> to check the status weather its locked( L: LOCKED P: active)
+renuka L 2025-10-11 0 99999 7 -1
+renuka@Bunny:~$ sudo passwd -u renuka >> to unlock your account
+passwd: password changed.
+renuka@Bunny:~$ sudo passwd -S renuka
+renuka P 2025-10-11 0 99999 7 -1
+----------------------------------------------------------------------------
+usermod >> Used to modify an existing user’s account — like changing username, home directory, shell, groups, etc.
+Step 1 — Add a comment (user description)
+O/P: renuka@Bunny:~$ sudo usermod -c "Test user for practice" shiv
+renuka@Bunny:~$
+renuka@Bunny:~$ grep '^shiv:' /etc/passwd
+shiv:x:1001:1001:Test user for practice:/home/shiv:/bin/bash
+Command: usermod -aG >> very common in real-world setups (especially to give sudo access).
+renuka@Bunny:~$ sudo usermod -aG sudo shiv
+renuka@Bunny:~$
+renuka@Bunny:~$ groups shiv
+shiv : shiv sudo (now shiva has sudo access)
+>> Command: usermod -l (rename user)
+-------------------------------------------------------------
+userdel >> Command: userdel
+Used to delete a user account from the Linux system.
+
+userdel username	Deletes the user but keeps the home directory.
+userdel -r username	Deletes the user and their home directory & mail.
+renuka@Bunny:~$ sudo userdel -r sunny
+userdel: user 'sunny' does not exist
+renuka@Bunny:~$ sudo rm -r /home/sunny
+renuka@Bunny:~$ ls /home
+harsha  renuka  shiv
+----------------------------------------------
+groupadd >> Create a new group
+renuka@Bunny:~$ sudo groupadd devteam
+renuka@Bunny:~$ grep '^devteam:' /etc/group
+devteam:x:1002:
+--------------------------------------------
+groupdel >> to delete a group 
+renuka@Bunny:~$ sudo groupdel devteam
+-----------------------------------------------------------------
+gpasswd >> t’s used to manage group membership and passwords for groups.
+renuka@Bunny:~$ sudo groupadd tester     ////////.. added group
+renuka@Bunny:~$ grep '^tester:' /etc/group
+tester:x:1002:
+renuka@Bunny:~$ sudo gpasswd -a shiv tester  >> here added user to that group(-a command)
+Adding user shiv to group tester
+renuka@Bunny:~$ grep '^tester:' /etc/group
+tester:x:1002:shiv
+>> how to remove (use -d)
+renuka@Bunny:~$ sudo gpasswd -d shiv tester
+Removing user shiv from group tester
+renuka@Bunny:~$ grep '^tester:' /etc/group
+tester:x:1002:
+-----------------------------------------------------------------------------
+su / sudo
+su — Switch User
+su - username
+sudo → Run one command as an admin.( lets a normal user run commands with root (admin) privileges)
+
+su → Switch to another user (like root).
+example for sudo:
+renuka@Bunny:~$ mkdir /test
+mkdir: cannot create directory ‘/test’: Permission denied (Because only root (admin) can modify /.) so we used sudo
+renuka@Bunny:~$ sudo mkdir /test
+renuka@Bunny:~$ ls -ld/test (( if you want to check at root level use this )) the reason you didn’t see /testfolder in your ls output is because you ran ls inside your home directory (~).
+ls: invalid option -- '/'
+Try 'ls --help' for more information.
+renuka@Bunny:~$ ls -ld /test
+drwxr-xr-x 1 root root 4096 Nov  1 09:50 /test
+
+chown / chgrp:
+
+renuka@Bunny:~$ ls -l
+total 8
+-rw-r--r-- 1 renuka renuka  173 Oct 25 10:59 compress.zip
+-rw-r--r-- 1 renuka renuka 1024 Oct 25 10:58 f1.txt
+-rw-r--r-- 1 renuka renuka 2048 Oct 25 10:58 f2.txt
+drwxr-xr-x 1 renuka renuka 4096 Oct 25 10:46 folder1
+renuka@Bunny:~$ sudo chown shiv f1.txt
+[sudo] password for renuka:
+renuka@Bunny:~$ ls -l
+total 8
+-rw-r--r-- 1 renuka renuka  173 Oct 25 10:59 compress.zip
+-rw-r--r-- 1 shiv   renuka 1024 Oct 25 10:58 f1.txt
+-rw-r--r-- 1 renuka renuka 2048 Oct 25 10:58 f2.txt
+drwxr-xr-x 1 renuka renuka 4096 Oct 25 10:46 folder1
+Change both owner and group
+
+renuka@Bunny:~$ sudo chown shiv:tester f1.txt
+renuka@Bunny:~$ ls -l
+total 8
+-rw-r--r-- 1 renuka renuka  173 Oct 25 10:59 compress.zip
+-rw-r--r-- 1 shiv   tester 1024 Oct 25 10:58 f1.txt
+-rw-r--r-- 1 renuka renuka 2048 Oct 25 10:58 f2.txt
+drwxr-xr-x 1 renuka renuka 4096 Oct 25 10:46 folder1
+renuka@Bunny:~$
+chown → change owner or both (owner:group)
+
+chgrp → change group only
