@@ -136,8 +136,82 @@ renuka@Bunny:~$ pkill sleep
 renuka@Bunny:~$ ps -ef | grep sleep
 renuka     910     9  9 12:53 tty1     00:00:00 grep --color=auto sleep
 ------------------------------------------------
+Suppose you have these processes:
 
+sleep 300
+sleeper.sh
+sleepy_cat
 
+pkill sleep → kills all three, because it matches “sleep” anywhere in the name.
+
+killall sleep → kills only the one exactly named sleep.
+
+🧠 Summary:
+
+✅ pkill → pattern match (flexible, silent)
+✅ killall → exact name match (prints output)
+-------------------------------------------------
+-prgrep [keyword]--	List processes based on the provided keyword.
+renuka@Bunny:~$ ps -ef | grep sleep
+renuka     930     9  0 14:09 tty1     00:00:00 sleep 500
+renuka     952     9  0 14:10 tty1     00:00:00 grep --color=auto sleep
+renuka@Bunny:~$ pgrep sleep
+930
+------------------------------
+pidof>> It shows the Process ID (PID) of a running program — similar to pgrep, but usually used for system services or single processes.
+bg	-- List and resume stopped jobs in the background
+renuka@Bunny:~$ sleep 5000 (after enter ctrlz)
+^Z
+[1]+  Stopped                 sleep 5000
+renuka@Bunny:~$ bg
+[1]+ sleep 5000 &
+renuka@Bunny:~$ jobs
+[1]+  Running                 sleep 5000 &
+renuka@Bunny:~$ kill 1
+-bash: kill: (1) - Operation not permitted
+renuka@Bunny:~$ pkill sleep
+[1]+  Terminated              sleep 5000
+--------------------------------------------------
+Foreground: You see it on screen and must wait for it to finish.
+fg	Bring job to foreground	fg	Terminal waits for it to finish
+fg %2	Bring specific job	fg %2	Job 2 moves to foreground
+renuka@Bunny:~$ sleep 100
+^Z
+[1]+  Stopped                 sleep 100
+renuka@Bunny:~$ bg
+[1]+ sleep 100 &
+renuka@Bunny:~$ jobs
+[1]+  Running                 sleep 100 &
+renuka@Bunny:~$ fg
+sleep 100
+Background: It runs silently behind the scenes — you can still use your terminal.
+---------------------------------------------------------------
+lsof	-- List files opened by running processes with lsof command
+renuka@Bunny:~$ lsof | grep bash
+bash      9             renuka  cwd    DIR    0,2    4096 12947848928795945 /home/renuka
+bash      9             renuka  rtd    DIR    0,2    4096 37999121855969597 /
+bash      9             renuka  txt    REG    0,2 1446024  4503599627482504 /usr/bin/bash
+bash      9             renuka  mem    REG    0,0                    114346 /usr/lib/locale/C.utf8/LC_CTYPE (path dev=0,2, inode=1970324837088938)
+bash      9             renuka  mem    REG    0,0                    233710 /usr/lib/x86_64-linux-gnu/libc.so.6 (path dev=0,2, inode=1970324837208302)
+bash      9             renuka  mem    REG    0,0                    234054 /usr/lib/x86_64-linux-gnu/libtinfo.so.6.4 (path dev=0,2, inode=1970324837208646)
+bash      9             renuka  mem    REG    0,0                    114360 /usr/lib/locale/C.utf8/LC_NUMERIC (path dev=0,2, inode=1970324837088952)
+bash      9             renuka  mem    REG    0,0                    114363 /usr/lib/locale/C.utf8/LC_TIME (path dev=0,2, inode=1970324837088955)
+bash      9             renuka  mem    REG    0,0                    114345 /usr/lib/locale/C.utf8/LC_COLLATE (path dev=0,2, inode=1970324837088937)
+bash      9             renuka  mem    REG    0,0                    114358 /usr/lib/locale/C.utf8/LC_MONETARY (path dev=0,2, inode=1970324837088950)
+bash      9             renuka  mem    REG    0,0                    114353 /usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES (path dev=0,2, inode=1970324837088945)
+bash      9             renuka  mem    REG    0,0                    114361 /usr/lib/locale/C.utf8/LC_PAPER (path dev=0,2, inode=1970324837088953)
+bash      9             renuka  mem    REG    0,0                    114359 /usr/lib/locale/C.utf8/LC_NAME (path dev=0,2, inode=1970324837088951)
+bash      9             renuka  mem    REG    0,0                    233421 /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache (path dev=0,2, inode=1970324837208013)
+bash      9             renuka  mem    REG    0,0                    233505 /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 (path dev=0,2, inode=1970324837208097)
+bash      9             renuka  mem    REG    0,0                    114344 /usr/lib/locale/C.utf8/LC_ADDRESS (path dev=0,2, inode=1970324837088936)
+bash      9             renuka  mem    REG    0,0                    114362 /usr/lib/locale/C.utf8/LC_TELEPHONE (path dev=0,2, inode=1970324837088954)
+bash      9             renuka  mem    REG    0,0                    114348 /usr/lib/locale/C.utf8/LC_MEASUREMENT (path dev=0,2, inode=1970324837088940)
+bash      9             renuka  mem    REG    0,0                    114347 /usr/lib/locale/C.utf8/LC_IDENTIFICATION (path dev=0,2, inode=1970324837088939)
+bash      9             renuka  mem    REG    0,0                    112008 /usr/bin/bash (path dev=0,2, inode=4503599627482504)
+bash      9             renuka    0u   CHR    4,1          2533274790713626 /dev/tty1
+bash      9             renuka  255u   CHR    4,1          2533274790713626 /dev/tty1
+bash      9             renuka    2u   CHR    4,1          2533274790713626 /dev/tty1
+bash      9             renuka    1u   CHR    4,1          2533274790713626 /dev/tty1
 
 
 
