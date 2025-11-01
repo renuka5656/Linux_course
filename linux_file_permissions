@@ -1,4 +1,4 @@
-pwd: present working directory
+pwd: present working directory.
 Purpose: shows the full path of the current directory.
 example:
 renuka@Bunny:~$ whoami
